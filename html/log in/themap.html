@@ -13,6 +13,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link href="assets/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/css/form-elements.css">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -30,22 +31,7 @@
             <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
             <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCo0rShlwtnrjaNv1p6zyc8uDjMucQ3E&callback=initMap"
-            async defer></script>
-
-            <style>
-            html, body {
-              height: 100%;
-              margin: 0;
-              padding: 0;
-            }
-            #map {
-              height: 840px;
-              border-radius: 25px;
-            }
-            </style>
-
-
+            <link rel="stylesheet" href="assets/css/map.css">
           </head>
 
           <body>
@@ -76,9 +62,10 @@
                             <h4 class="modal-title" id="exampleModalLabel">Send Your File!</h4>
                           </div>
                           <div class="modal-body">
-                            <span class="btn btn-primary btn-file">
+                            <!-- <span id="send" class="btn btn-primary btn-file">
                               Choose PDF<input type="file">
-                            </span>
+                            </span> -->
+                            <input id="input-25" name="input25[]" type="file" multiple class="file-loading">
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -90,112 +77,25 @@
 
                     <script>
 
-                    function initMap() {
-                      var myLatLng = new google.maps.LatLng(-34.397, 150.644);
-                      var mapOptions = {
-                        zoom: 9,
-                        center: myLatLng,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                      }
-                      map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-                      var contentString = 'LET\'S FUCKING PRINT BRO';
+                    </script>
+                  </div>
+                </div>
 
-                      var infowindow = new google.maps.InfoWindow({
-                        content: contentString
-                      });
-
-                      <!-- First check if geolocation services are turned on-->
+              </div>
 
 
+            </div>
 
-                      var markersArray = [];
-                      var infowindowArray =[];
-                      var coordinates = {lat: -34.400, lng: 150.644};
-                      var coordinates2 = {lat: -34.300, lng: 150.644};
-                      var coordinate3 = {lat: -34.200, lng: 150.644};
-                      var geoCoordinate;
-
-                      if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                          var pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                          };
-                          console.log(position.latitude);
-                          console.log(pos.longitude);
-                          console.log('hello');
-
-                          infowindow.setPosition(pos);
-                          infowindow.setContent('Location found.');
-                          map.setCenter(pos);
-                        }, function() {
-                          handleLocationError(true, infowindow, map.getCenter());
-                        });
-                      } else {
-                                // Browser doesn't support Geolocation
-                                console.log('hello, it\'s me!');
-                                handleLocationError(false, infowindow, map.getCenter());
-                              } 
-
-
-                              console.log(navigator.geolocation);
-                              addMarker(coordinates);
-                              addMarker(coordinate3);
-                              addMarker(coordinates2);
-                              
-                              // initializes x amount of markers.
-                              for(var i =0; i < 2; i ++){
-                                markersArray[i].setMap(map);
-                              }
-
-                              // Creates a marker
-                              function addMarker(location, string){
-                                marker = new google.maps.Marker({
-                                  position: location,
-                                  map: map,
-                                  title: 'H'
-                                });
-                                marker.info = new google.maps.InfoWindow({
-                                  content: contentString
-                                });
-                                marker.addListener('click', function(){
-                                  $('#myModal').modal('show');
-                                });
-                                markersArray.push(marker);
-                              }
-
-                              function addInfowindow(string){
-                                var infowindow = new google.maps.InfoWindow({content: string});
-                                infowindowArray.push(infowindow);
-                              }
-                            }  
-
-
-
-
-                            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                              infoWindow.setPosition(pos);
-                              infoWindow.setContent(browserHasGeolocation ?
-                                'Error: The Geolocation service failed.' :
-                                'Error: Your browser doesn\'t support geolocation.');
-                            }
-
-
-                            </script>
-                          </div>
-                        </div>
-                        
-                      </div>
-
-
-                    </div>
-
-                    <!-- Javascript -->
-                    <script src="assets/js/jquery-1.11.1.min.js"></script>
-                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="assets/js/jquery.backstretch.min.js"></script>
-                    <script src="assets/js/scripts.js"></script>
+            <!-- Javascript -->
+            <script src="assets/js/jquery-1.11.1.min.js"></script>
+            <script src="assets/js/fileinput.min.js" type="text/javascript"></script>
+            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="assets/js/jquery.backstretch.min.js"></script>
+            <script src="assets/js/scripts.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCo0rShlwtnrjaNv1p6zyc8uDjMucQ3E&callback=initMap"
+            async defer></script>
+            <script src="assets/js/map.js"></script>
 
 
         <!--[if lt IE 10]>

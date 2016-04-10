@@ -30,20 +30,19 @@
             <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
             <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCo0rShlwtnrjaNv1p6zyc8uDjMucQ3E&callback=initMap" async defer></script>
-            <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
-
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCo0rShlwtnrjaNv1p6zyc8uDjMucQ3E&callback=initMap"
+            async defer></script>
 
             <style>
-              html, body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-              }
-              #map {
-                height: 840px;
-                border-radius: 25px;
-              }
+            html, body {
+              height: 100%;
+              margin: 0;
+              padding: 0;
+            }
+            #map {
+              height: 840px;
+              border-radius: 25px;
+            }
             </style>
 
 
@@ -59,20 +58,37 @@
                   <div class="col-sm-8 col-sm-offset-2 text">
                     <h1><strong>Proximity Print</strong></h1>
                     <div class="description">
-                     <p>
-                      #LFPB
-                    </p>
+                      <p>
+                        #LFPB
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="container">
-                  <div id="map"></div>
-                  <script>
+                <div class="row">
+                  <div class="container">
+                    <div id="map"></div>
 
-                    var ref = new Firebase('https://au740bzazlx.firebaseio-demo.com/');
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Send Your File!</h4>
+                          </div>
+                          <div class="modal-body">
+                            <span class="btn btn-primary btn-file">
+                              Choose PDF<input type="file">
+                            </span>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Send message</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                    console.log(ref);
+                    <script>
 
                     function initMap() {
                       var myLatLng = new google.maps.LatLng(-34.397, 150.644);
@@ -83,6 +99,13 @@
                       }
                       map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+                      var contentString = 'LET\'S FUCKING PRINT BRO';
+
+                      var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                      });
+
+                      <!-- First check if geolocation services are turned on-->
 
 
 
@@ -90,56 +113,89 @@
                       var infowindowArray =[];
                       var coordinates = {lat: -34.400, lng: 150.644};
                       var coordinates2 = {lat: -34.300, lng: 150.644};
+                      var coordinate3 = {lat: -34.200, lng: 150.644};
+                      var geoCoordinate;
 
-                      addMarker(coordinates);
-                      addInfowindow('FUCK YEA BRO');
-                      addMarker(coordinates2);
-                      addInfowindow('FUCK');
+                      if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                          var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                          };
+                          console.log(position.latitude);
+                          console.log(pos.longitude);
+                          console.log('hello');
 
-                      for(var i =0; i < 2; i ++){
-                        markersArray[i].setMap(map);
-                      }
-
-
-                      function addMarker(location){
-                        marker = new google.maps.Marker({
-                          position: location,
-                          map: map
+                          infowindow.setPosition(pos);
+                          infowindow.setContent('Location found.');
+                          map.setCenter(pos);
+                        }, function() {
+                          handleLocationError(true, infowindow, map.getCenter());
                         });
-                        markersArray.push(marker);
-                      }
-
-                      function addInfowindow(string){
-                        var infowindow = new google.maps.InfoWindow({content: string});
-                        infowindowArray.push(infowindow);
-                      }
-                    }  
+                      } else {
+                                // Browser doesn't support Geolocation
+                                console.log('hello, it\'s me!');
+                                handleLocationError(false, infowindow, map.getCenter());
+                              } 
 
 
+                              console.log(navigator.geolocation);
+                              addMarker(coordinates);
+                              addMarker(coordinate3);
+                              addMarker(coordinates2);
+                              
+                              // initializes x amount of markers.
+                              for(var i =0; i < 2; i ++){
+                                markersArray[i].setMap(map);
+                              }
+
+                              // Creates a marker
+                              function addMarker(location, string){
+                                marker = new google.maps.Marker({
+                                  position: location,
+                                  map: map,
+                                  title: 'H'
+                                });
+                                marker.info = new google.maps.InfoWindow({
+                                  content: contentString
+                                });
+                                marker.addListener('click', function(){
+                                  $('#myModal').modal('show');
+                                });
+                                markersArray.push(marker);
+                              }
+
+                              function addInfowindow(string){
+                                var infowindow = new google.maps.InfoWindow({content: string});
+                                infowindowArray.push(infowindow);
+                              }
+                            }  
 
 
-                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                      infoWindow.setPosition(pos);
-                      infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-                    }
 
 
-                  </script>
-                </div>
-              </div>
+                            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                              infoWindow.setPosition(pos);
+                              infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+                            }
 
-            </div>
-            
-            
-          </div>
 
-          <!-- Javascript -->
-          <script src="assets/js/jquery-1.11.1.min.js"></script>
-          <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-          <script src="assets/js/jquery.backstretch.min.js"></script>
-          <script src="assets/js/scripts.js"></script>
+                            </script>
+                          </div>
+                        </div>
+                        
+                      </div>
+
+
+                    </div>
+
+                    <!-- Javascript -->
+                    <script src="assets/js/jquery-1.11.1.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="assets/js/jquery.backstretch.min.js"></script>
+                    <script src="assets/js/scripts.js"></script>
 
 
         <!--[if lt IE 10]>

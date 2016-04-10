@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proximity Print Login</title>
+
+  <title>Proximity Login Form</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/form-elements.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+            <![endif]-->
+
+            <!-- Favicon and touch icons -->
+            <link rel="shortcut icon" href="assets/ico/favicon.png">
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCo0rShlwtnrjaNv1p6zyc8uDjMucQ3E&callback=initMap" async defer></script>
+            <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+
+
+            <style>
+              html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+              }
+              #map {
+                height: 840px;
+                border-radius: 25px;
+              }
+            </style>
+
+
+          </head>
+
+          <body>
+
+            <!-- Top content -->
+            <div class="top-content">
+              <div class="container">
+
+                <div class="row">
+                  <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><strong>Proximity Print</strong></h1>
+                    <div class="description">
+                     <p>
+                      #LFPB
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="container">
+                  <div id="map"></div>
+                  <script>
+
+                    var ref = new Firebase('https://au740bzazlx.firebaseio-demo.com/');
+
+                    console.log(ref);
+
+                    function initMap() {
+                      var myLatLng = new google.maps.LatLng(-34.397, 150.644);
+                      var mapOptions = {
+                        zoom: 9,
+                        center: myLatLng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                      }
+                      map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+
+
+
+                      var markersArray = [];
+                      var infowindowArray =[];
+                      var coordinates = {lat: -34.400, lng: 150.644};
+                      var coordinates2 = {lat: -34.300, lng: 150.644};
+
+                      addMarker(coordinates);
+                      addInfowindow('FUCK YEA BRO');
+                      addMarker(coordinates2);
+                      addInfowindow('FUCK');
+
+                      for(var i =0; i < 2; i ++){
+                        markersArray[i].setMap(map);
+                      }
+
+
+                      function addMarker(location){
+                        marker = new google.maps.Marker({
+                          position: location,
+                          map: map
+                        });
+                        markersArray.push(marker);
+                      }
+
+                      function addInfowindow(string){
+                        var infowindow = new google.maps.InfoWindow({content: string});
+                        infowindowArray.push(infowindow);
+                      }
+                    }  
+
+
+
+
+                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                      infoWindow.setPosition(pos);
+                      infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+                    }
+
+
+                  </script>
+                </div>
+              </div>
+
+            </div>
+            
+            
+          </div>
+
+          <!-- Javascript -->
+          <script src="assets/js/jquery-1.11.1.min.js"></script>
+          <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+          <script src="assets/js/jquery.backstretch.min.js"></script>
+          <script src="assets/js/scripts.js"></script>
+
+
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+            <![endif]-->
+
+          </body>
+
+          </html>

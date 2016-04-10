@@ -1,0 +1,58 @@
+<html>
+
+<script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+
+<input type = "text" id = "name">	
+<input type = "text" id = "password">
+<button onclick = "addUser()">Add test user</button>
+
+<br><br><br>
+
+<input type="file" id="fileinput"/>
+<button onclick="addJob()"/>
+
+
+<script>
+
+	var ref = new Firebase('https://au740bzazlx.firebaseio-demo.com/');
+
+	function addUser() {
+		var json = {};
+		json[document.getElementById("name").value] = {
+			"pass": document.getElementById("password").value,
+			"jobs": 0,
+			"status": 1,
+			"location": {
+				"long": -76.941112,
+				"lat": 38.986645
+			}
+		}
+		ref.push(json);
+	}
+
+	function addTestJob() {
+		var job = 1;
+	}
+
+
+</script>
+</html>
+
+<script>
+	var userData = new Firebase("https://au740bzazlx.firebaseio-demo.com/" + user + "/jobs");
+	
+	ref.on("child_added", function(snapshot, prevChildKey) {
+		var newPost = snapshot.val();
+
+		//popup with details
+
+		if (1){
+			var pdf = "<embed data: application/pdf; base64," + newPost + "></embed> <script> window.onload = function() {window.print()}; </script>" 
+			window.open(pdf)
+		}
+		else {
+			//else delete job
+		}
+		
+	});
+</script>
